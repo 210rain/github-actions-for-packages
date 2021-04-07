@@ -57,11 +57,13 @@ jobs:
         with:
           name: webpack artifacts
           path: public
+      - name: get short sha
+        run: echo '::set-output'
+        id: short-sha
       - name: Build container image
-        uses: docker/build-push-action@v1
+        uses: docker/build-push-action@v2
         with:
           username: ${{ github.actor }}
           password: ${{ secrets.GITHUB_TOKEN }}
-          registry: docker.pkg.github.com
-          repository: 210rain/github-actions-for-packages/tic-tac-toe
-          tag_with-sha: true
+          tags: |
+            ${{ GITHUB_SHA }}
